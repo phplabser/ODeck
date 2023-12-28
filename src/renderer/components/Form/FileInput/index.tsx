@@ -8,7 +8,6 @@ import {
   FormLabel,
   Button,
 } from '@chakra-ui/react';
-
 import React, { useCallback, useMemo, useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -42,8 +41,19 @@ const FileInput: React.FC<FileInputProps> = ({
     [formState.errors, name]
   );
 
-  const handleOpenFilePicker = useCallback(() => {
-    inputRef.current?.click();
+  const handleOpenFilePicker = useCallback(async (onChange) => {
+    const dialogResult = await window.electron.ipcRenderer.openDialog(
+      'showOpenDialog',
+      {
+        properties: ['openFile'],
+        filters: rest.types || [],
+      }
+    );
+    if (dialogResult.canceled) return;
+    if (inputRef.current) {
+      inputRef.current.value = dialogResult?.filePaths[0];
+    }
+    onChange(dialogResult?.filePaths[0]);
   }, []);
 
   return (
@@ -66,23 +76,16 @@ const FileInput: React.FC<FileInputProps> = ({
             }) => (
               <>
                 <Input
-                  className={className}
-                  name={fieldName}
-                  onChange={(event) => {
-                    onChange(event.target.files?.item(0)?.path);
-                  }}
-                  onBlur={onBlur}
                   ref={inputRef}
-                  defaultValue={defaultValue}
-                  data-testid={name}
-                  isInvalid={formState.errors[name]}
-                  type="file"
-                  hidden
-                  isDisabled={disabled}
-                  {...rest}
+                  onBlur={onBlur}
+                  name={fieldName}
+                  value={value}
+                  disabled
                 />
-                <Input value={value} disabled />
-                <Button onClick={handleOpenFilePicker} size="sm">
+                <Button
+                  onClick={() => handleOpenFilePicker(onChange)}
+                  size="sm"
+                >
                   {t('file_picker.label')}
                 </Button>
               </>

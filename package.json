@@ -85,7 +85,8 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      "./node_modules/@electron/remote/**"
     ]
   },
   "repository": {

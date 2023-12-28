@@ -63,6 +63,7 @@ const Editor = () => {
 
   const handleSubmit = useCallback(
     ({ pageId, ...values }: FieldValues) => {
+      console.log(pageId, values);
       dispatch(
         updateKey({
           ...currentKey,

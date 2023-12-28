@@ -1,9 +1,11 @@
 import path from 'path';
 import { HandlerConfig, KeyPressEvent } from 'interfaces';
+import os from 'os';
+import exec from 'child_process';
 import Handler from './common/handler';
 import KeyTypes from '../enums/keys.enum';
 
-const exec = require('child_process').execFile;
+const isMac = os.platform() === 'darwin';
 
 export const config: HandlerConfig = {
   groupKey: 'system',
@@ -31,8 +33,9 @@ export const config: HandlerConfig = {
         name: 'exePath',
         defaultValue: '',
         props: {
-          maxLength: 500,
-          accept: '.exe',
+          types: [
+            { name: 'Executables', extensions: [isMac ? '.app' : '.exe'] },
+          ],
         },
       },
     ],
@@ -47,6 +50,10 @@ export default class ExecutableHandler extends Handler {
   onKeyPress({ keyPressed }: KeyPressEvent) {
     if (!keyPressed.actionConfig.exePath) return;
     const cwd = path.dirname(keyPressed.actionConfig.exePath);
-    exec(keyPressed.actionConfig.exePath, undefined, { cwd });
+    if (!isMac) {
+      exec.execFile(keyPressed.actionConfig.exePath, undefined, { cwd });
+    } else {
+      exec.exec(`/usr/bin/open ${keyPressed.actionConfig.exePath}`);
+    }
   }
 }
