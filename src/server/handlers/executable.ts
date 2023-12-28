@@ -53,7 +53,7 @@ export default class ExecutableHandler extends Handler {
     if (!isMac) {
       exec.execFile(keyPressed.actionConfig.exePath, undefined, { cwd });
     } else {
-      exec.exec(`/usr/bin/open ${keyPressed.actionConfig.exePath}`);
+      exec.exec(`/usr/bin/open "${keyPressed.actionConfig.exePath}"`);
     }
   }
 }
