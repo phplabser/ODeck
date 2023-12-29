@@ -36,7 +36,7 @@ const PairDeckButton = () => {
   const qrCodeData = useMemo(
     () =>
       JSON.stringify({
-        host: `http://${selectedIp}:3000`,
+        host: `http://${selectedIp}:${window.envVars.LISTEN}`,
         deviceId: currentDevice.id,
       }),
     [selectedIp, currentDevice]

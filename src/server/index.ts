@@ -17,7 +17,7 @@ import HandlersController from './controllers/handlers';
 const signals = new EventEmitter();
 
 const startServer = () => {
-  const port = 3299;
+  const port = process.env.LISTEN;
   const expressApp = express();
   expressApp.use(cors());
   const server = http.createServer(expressApp);

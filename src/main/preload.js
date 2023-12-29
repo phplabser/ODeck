@@ -22,3 +22,7 @@ contextBridge.exposeInMainWorld('electron', {
     },
   },
 });
+
+contextBridge.exposeInMainWorld('envVars', {
+  LISTEN: process.env.LISTEN,
+});
