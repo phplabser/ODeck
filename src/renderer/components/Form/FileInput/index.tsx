@@ -43,13 +43,10 @@ const FileInput: React.FC<FileInputProps> = ({
 
   const handleOpenFilePicker = useCallback(
     async (onChange) => {
-      const dialogResult = await window.electron.ipcRenderer.openDialog(
-        'showOpenDialog',
-        {
-          properties: ['openFile'],
-          filters: rest.types || [],
-        }
-      );
+      const dialogResult = await window.electron.ipcRenderer.openDialog({
+        properties: ['openFile'],
+        filters: rest.types || [],
+      });
       if (dialogResult.canceled) return;
       if (inputRef.current) {
         inputRef.current.value = dialogResult?.filePaths[0];

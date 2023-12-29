@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
+
 const validChannels = ['ipc-example'];
 
 contextBridge.exposeInMainWorld('electron', {
@@ -6,10 +7,8 @@ contextBridge.exposeInMainWorld('electron', {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
     },
-    openDialog(method, config) {
-      console.log(config);
-
-      return ipcRenderer.invoke('dialog', method, config);
+    openDialog(config) {
+      return ipcRenderer.invoke('dialog', config);
     },
     on(channel, func) {
       if (validChannels.includes(channel)) {

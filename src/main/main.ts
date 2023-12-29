@@ -127,10 +127,8 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
-  ipcMain.handle(
-    'dialog',
-    (_event, browserWindow: BrowserWindow, params: object) =>
-      dialog.showOpenDialog(browserWindow, params)
+  ipcMain.handle('dialog', (_event, params: object) =>
+    dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), params)
   );
   const startServer = require('../server').default;
   startServer();

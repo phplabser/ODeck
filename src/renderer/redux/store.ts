@@ -5,7 +5,7 @@ import { composeWithDevTools } from '@redux-devtools/extension';
 import socketIOClient from 'socket.io-client';
 import rootReducer from './ducks';
 
-const ENDPOINT = 'http://localhost:3000';
+const ENDPOINT = 'http://localhost:3299';
 
 export const socket = socketIOClient(ENDPOINT, {
   rejectUnauthorized: false,

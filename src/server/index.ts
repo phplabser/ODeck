@@ -17,6 +17,7 @@ import HandlersController from './controllers/handlers';
 const signals = new EventEmitter();
 
 const startServer = () => {
+  const port = 3299;
   const expressApp = express();
   expressApp.use(cors());
   const server = http.createServer(expressApp);
@@ -84,9 +85,9 @@ const startServer = () => {
     });
   });
 
-  server.listen(3000, () => {
+  server.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log('ODeck running on port 3000');
+    console.log(`ODeck running on port ${port}`);
   });
 };
 
